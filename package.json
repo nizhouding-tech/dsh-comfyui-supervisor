@@ -1,0 +1,41 @@
+{
+  "name": "dsh-comfyui-supervisor",
+  "version": "0.1.0",
+  "description": "Lazy start / idle-exit lifecycle tools for a local ComfyUI server, packaged as a DeepSeek Harness (DSH) plugin.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "assets",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "comfyui",
+    "lifecycle",
+    "supervisor"
+  ],
+  "license": "MIT",
+  "author": "Zhouding Jeff Ni (nizhouding-tech)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nizhouding-tech/dsh-comfyui-supervisor.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

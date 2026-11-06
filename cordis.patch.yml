@@ -1,0 +1,10 @@
+# dsh-comfyui-supervisor bundle patch.
+# One host-side entry; the plugin only registers lifecycle tools and never starts ComfyUI during boot.
+- insert:
+    - id: comfyui-supervisor
+      name: dsh-comfyui-supervisor
+      config:
+        baseUrl: http://127.0.0.1:8188
+        comfyRoot: D:\ComfyUI
+        idleTimeoutMinutes: 30
+        startTimeoutSeconds: 300

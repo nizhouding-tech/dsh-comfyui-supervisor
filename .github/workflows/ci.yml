@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  syntax:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Node syntax check (plugin half)
+        run: node --check lib/index.js
+
+      - name: Node syntax check (supervisor)
+        run: node --check assets/supervise.cjs
+
+      - name: package.json sanity
+        shell: pwsh
+        run: |
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          if ($pkg.name -ne 'dsh-comfyui-supervisor') { throw 'unexpected package name' }
+          if (-not (Test-Path 'assets/supervise.cjs')) { throw 'assets/supervise.cjs missing' }
+          if (-not (Test-Path 'cordis.patch.yml')) { throw 'cordis.patch.yml missing' }
+          Write-Host "package $($pkg.name)@$($pkg.version) ok"
+
+      - name: Plugin exports sanity
+        shell: pwsh
+        run: |
+          node -e "import('./lib/index.js').then(m => { if (typeof m.apply !== 'function') throw new Error('apply missing'); if (!Array.isArray(m.inject)) throw new Error('inject missing'); console.log('plugin entry ok'); })"

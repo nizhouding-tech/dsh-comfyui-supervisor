@@ -1,0 +1,14 @@
+# dependencies
+node_modules/
+
+# local runtime state
+.supervisor.lock
+.supervisor.state
+*.log
+logs/
+
+# artifacts
+*.zip
+*.tgz
+.DS_Store
+Thumbs.db
