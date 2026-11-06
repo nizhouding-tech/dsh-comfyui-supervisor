@@ -30,9 +30,16 @@ Both are bad. This plugin makes the lifecycle explicit and automatic: start on d
 ## Install
 
 ```powershell
-# via gh / dsh (GitHub install, no npm account needed)
-dsh plugin --profile web add github:nizhouding-tech/dsh-comfyui-supervisor
+# recommended: GitHub tarball (no npm account, no SSH key required)
+dsh plugin --profile web add https://github.com/nizhouding-tech/dsh-comfyui-supervisor/archive/refs/heads/main.tar.gz
+
+# pinned to the v0.1.0 release
+dsh plugin --profile web add https://github.com/nizhouding-tech/dsh-comfyui-supervisor/archive/refs/tags/v0.1.0.tar.gz
 ```
+
+> `github:` shorthand (`dsh plugin add github:user/repo`) resolves to `git+ssh://` in pnpm and fails
+> without SSH keys. Either use the tarball URLs above, or run `pnpm config set git-protocol https`
+> first.
 
 Restart DSH once. The three tools then appear in the tool table.
 
@@ -89,6 +96,7 @@ Measured on Windows 11, Ryzen AI MAX+ 395 / Radeon 8060S, ComfyUI 0.44.0:
 | `comfyui_stop` | Python tree killed, VRAM released, `running=false` |
 | idle timeout (tested with `--idle-min 1`) | killed at exactly 1 minute, lock/state cleaned |
 | `comfyui_stop` when nothing runs | no-op, `changed=false` |
+| All three tools through the real DSH tool interface | `status → start → status → stop` returned the expected values, no restart needed after install |
 
 ## Limitations / roadmap
 

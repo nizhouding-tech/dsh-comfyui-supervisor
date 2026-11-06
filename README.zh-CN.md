@@ -26,9 +26,15 @@
 ## 安装
 
 ```powershell
-# 从 GitHub 安装（不需要 npm 账号）
-dsh plugin --profile web add github:nizhouding-tech/dsh-comfyui-supervisor
+# 推荐：GitHub tarball（不需要 npm 账号，也不需要 SSH key）
+dsh plugin --profile web add https://github.com/nizhouding-tech/dsh-comfyui-supervisor/archive/refs/heads/main.tar.gz
+
+# 固定到 v0.1.0 发布版
+dsh plugin --profile web add https://github.com/nizhouding-tech/dsh-comfyui-supervisor/archive/refs/tags/v0.1.0.tar.gz
 ```
+
+> pnpm 的 `github:` 简写会解析成 `git+ssh://`，本机没有 SSH key 时必然失败。用上面的 tarball 链接，
+> 或者先执行 `pnpm config set git-protocol https`。
 
 安装后重启一次 DSH，三个工具就会出现在工具表里。
 
@@ -83,6 +89,7 @@ Windows 11、Ryzen AI MAX+ 395 / Radeon 8060S、ComfyUI 0.44.0：
 | `comfyui_stop` | Python 进程树被杀、显存释放、`running=false` |
 | 空闲退出（用 `--idle-min 1` 实测） | 第 1 分钟准时退出，锁与状态文件清理 |
 | 没在跑时 `comfyui_stop` | 无操作，`changed=false` |
+| 三个工具走真实 DSH 工具接口 | `status → start → status → stop` 全部返回预期值，安装后无需重启即可加载 |
 
 ## 限制 / 路线图
 
